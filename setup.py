@@ -1,9 +1,12 @@
 
 from setuptools import setup, find_packages
-import imp
+import importlib
 
-version = imp.load_source('pynverse.version', 'pynverse/version.py')
-rev = version.git_revision
+spec = importlib.util.spec_from_file_location('pynverse.version', 'pynverse/version.py')
+loaded = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(loaded)
+
+rev = getattr(loaded, "git_revision")
 
 setup(
     name='pynverse',
